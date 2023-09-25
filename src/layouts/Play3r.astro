@@ -1,0 +1,47 @@
+---
+    const res = await fetch('https://api.github.com/users/username');
+    // const data = await res.json();
+
+    import players from "../data";
+import ListRow from "./ListRow.astro";
+
+    const orderList = [...players].sort((a, b) => a.lista - b.lista);
+
+---
+
+<div class="text-white flex flex-col">
+    <article class="flex flex-col items-center">
+        <span class='flex gap-2 border justify-left w-4/5 text-[#0833a2] text-lg border-b-slate-300 font-semibold'>
+            <p  class='w-2/12 text-center md:w-1/6'>No. Lista</p>
+            <h2 class='w-2/12 text-center md:w-2/6'>Nombre(s)</h2>
+            <h2 class='w-2/12 text-center md:w-3/12'>Apellidos</h2>
+            <p class='w-2/12 text-center md:w-1/6'>Posición</p>
+            <p class='w-2/12 text-center max-[780px]:hidden'>Asistencias</p>
+            <p class='w-1/12 text-center max-[780px]:hidden'>Faltas</p>
+            <p class='w-1/12 text-center'></p>
+        </span>
+
+        {
+            orderList.map((data) => (
+            <ListRow 
+                lista={data.lista}
+                name={data.name}
+                lastName={data.lastName}
+                position={data.position}
+                asistencias={data.asistencias}
+                faltas={data.faltas}
+                id={data.id}
+            />
+            // <span class='flex gap-1 border  justify-left w-4/5 text-[#0833a2] border-b-slate-300'>
+            //     <p  class='w-2/12 text-center'>{data.lista}</p>
+            //     <h2 class='w-2/12 text-center'>{data.name}</h2>
+            //     <h2 class='w-2/12 text-center'>{data.lastName}</h2>
+            //     <p class='w-2/12 text-center'>{data.position}</p>
+            //     <p class='w-2/12 text-center'>{data.asistencias}</p>
+            //     <p class='w-1/12 text-center'>{data.faltas}</p>
+            //     <button class='w-1/12'><a href={`player/${data.id}`}>+</a></button>
+            // </span>
+            ))
+        }
+    </article>
+</div>

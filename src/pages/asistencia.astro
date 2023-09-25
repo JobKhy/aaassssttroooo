@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Players from "../layouts/Players";
+import Assistance from "../layouts/Assistance";
+---
+
+<Layout title="Pase asistencia">
+    <main>
+		<h1>Pase de asistencia fogoneros <span class="text-gradient">fogoneros</span></h1>
+	</main>
+
+	<Assistance idi={9} client:only="react"/>
+	<Players client:only="react"/>
+
+</Layout>
+
+<style>
+    h1 {
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+        color: black;
+		margin-bottom: 1em;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+</style>
