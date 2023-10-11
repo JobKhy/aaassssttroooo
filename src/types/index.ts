@@ -9,15 +9,3 @@ export type Player = {
     noAssist: number;
     assists: number;
 }
-
-interface Info {
-    id: number;
-    lista: number;
-    name: string;
-    lastName: string;
-    age: number;
-    position: string;
-    shirtNumber: number;
-    faltas: number;
-    asistencias: number;
-}
