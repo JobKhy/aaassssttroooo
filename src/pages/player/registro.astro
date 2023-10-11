@@ -1,6 +1,113 @@
 ---
+import { request } from '../../Api';
 import Layout from '../../layouts/Layout.astro';
+
+
+function parseIntOrNull(params: FormDataEntryValue | null) {
+    if (params === null) {
+        return null;
+    }
+    if (typeof params !== "string") {
+        return null;
+    }
+    const number = parseInt(params);
+    if (isNaN(number)) {
+        return null;
+    } 
+    return number;
+}
+
+const errors = { name: "", list: "", lastName: "", age: "", position: "", shirtNumber: ""};
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get("name");
+    const list = parseIntOrNull(data.get("list"));
+    const lastName = data.get("lastName");
+    const age = parseIntOrNull(data.get("age"));
+    const position = data.get("position");
+    const shirtNumber = parseIntOrNull(data.get("shirtNumber"));
+    
+
+    if (typeof name !== "string" || name.length < 1) {
+      errors.name += "Please enter a username. ";
+    }
+
+    if (typeof list !== "number" || list < 1) {
+      errors.list += "Please enter a list. ";
+    }
+    
+    if (typeof lastName !== "string" || lastName.length < 1) {
+      errors.lastName += "Please enter a lastName. ";
+    }
+
+    if (typeof age !== "number" || age < 10) {
+      errors.age += "Please enter a correct age. ";
+    }
+
+    if (typeof position !== "string" || position.length < 1) {
+      errors.position += "Please enter a position. ";
+    }
+
+    if (typeof shirtNumber !== "number" || shirtNumber < 1) {
+      errors.shirtNumber += "Please enter a shirtNumber. ";
+    }
+    
+    const hasErrors = Object.values(errors).some(msg => msg)
+    if (!hasErrors) {
+
+      await request.post("/players", {
+        list,
+        name,
+        lastName,
+        age,
+        position,
+        shirtNumber
+      });
+        
+      return Astro.redirect("../");
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+
 ---
     <Layout title="registro Fogoneros">
       <h1>Home</h1>
+
+      <h1>Register</h1>
+
+      <form method="POST">
+        <label>
+          Nombre: <input type="text" name="name" required />
+        </label>
+        {errors.name && <p>{errors.name}</p>}
+        <label>
+          list: <input type="number" name="list" required />
+        </label>
+        {errors.list && <p>{errors.list}</p>}
+        <label>
+          Appellido: <input type="text" name="lastName" required minlength="4" />
+        </label>
+        {errors.lastName && <p>{errors.lastName}</p>}
+        <label>
+          Edad: <input type="number" name="age" required minlength="2" />
+        </label>
+        {errors.age && <p>{errors.age}</p>}
+        <label>
+          Posisión: <input type="text" name="position" required />
+        </label>
+        {errors.position && <p>{errors.position}</p>}
+        <label>
+          No. de Juego: <input type="number" name="shirtNumber" minlength="1" />
+        </label>
+        {errors.shirtNumber && <p>{errors.shirtNumber}</p>}
+
+        <button>Register</button>
+
+      </form>
+
     </Layout>

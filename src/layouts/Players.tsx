@@ -1,38 +1,45 @@
 import React, { useEffect } from 'react'
-import players from '../data'
+// import players from '../data'
 import { useState } from 'react'
+import { type Player } from '../types'
+import { rawUrl } from '../constants'
+import { request } from "../Api"
 
-type Player = {
-    id: number,
-    lista: number,
-    name: string,
-    lastName: string,
-    age: number,
-    position: string,
-    team: string,
-    faltas: number,
-    asistencias: number,
+async function getPlayersAll() {
+    const req = await request.get<Player[]>("/players")
+    console.log(req.config);
+    
+    return req.data
 }
-
 
 const Players = () => {
 
     const [order, setOrder] = useState<Player[]>([])
 
+    
+
     useEffect(() => {
-        const ordered = [...players].sort((a, b) => a.lista - b.lista)
-        setOrder(ordered)
-    }, [])
+        
+        (async () => {
+            try{
+                const data = await getPlayersAll()
+                setOrder(data)
+                console.log({data});
+            } catch (error) {
+                console.log({error});
+            }
+            
+        })()
+
+    }, []);
 
     const orderFaltasPlayers = () => {
-        const ordered = [...players].sort((a, b) => a.faltas - b.faltas)
+        const ordered = [...order].sort((a, b) => a.noAssist - b.noAssist)
         setOrder(ordered)
-        console.log("SEXIYO");
-        
     }
 
     const orderListPlayers = () => {
-        const ordered = [...players].sort((a, b) => a.lista - b.lista)
+        const ordered = [...order].sort((a, b) => a.list - b.list)
         setOrder(ordered)
     }
 
@@ -50,7 +57,7 @@ const Players = () => {
 
         <div className='flex flex-col gap-2 items-center '>
         <span className='flex gap-2 border justify-left w-4/5 text-[#0833a2] text-lg border-b-slate-300 font-semibold'>
-                <p  className='w-2/12 text-center'>No. Lista</p>
+                <p  className='w-2/12 text-center'>No. list</p>
                 <h2 className='w-2/12 text-center'>Apellidos</h2>
                 <h2 className='w-2/12 text-center'>Nombre(s)</h2>
                 <p className='w-2/12 text-center'>Posición</p>
@@ -60,12 +67,12 @@ const Players = () => {
         </span>
         {order.map((order, index) => (
             <span key={index} className='flex gap-1 border   justify-left w-4/5 text-[#0833a2] border-b-slate-300'>
-                <p  className='w-2/12 text-center'>{order.lista}</p>
+                <p  className='w-2/12 text-center'>{order.list}</p>
                 <h2 className='w-2/12 text-center'>{order.name}</h2>
                 <h2 className='w-2/12 text-center'>{order.lastName}</h2>
                 <p className='w-2/12 text-center'>{order.position}</p>
-                <p className='w-2/12 text-center'>{order.asistencias}</p>
-                <p className='w-1/12 text-center'>{order.faltas}</p>
+                <p className='w-2/12 text-center'>{order.assists}</p>
+                <p className='w-1/12 text-center'>{order.noAssist}</p>
                 <button className='w-1/12'><a href={`player/${order.id}`}>+</a></button>
             </span>
             ))
@@ -76,11 +83,4 @@ const Players = () => {
   )
 }
 
-  // const [playersS, setPlayersS] = useState<Player[]>([])
-
-  // const getPlayers = async () => {
-  //     const response = await fetch('http://localhost:3000/players')
-  //     const data = await response.json()
-  //     setPlayers(data)
-  // }
 export default Players

@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import Players from '../layouts/Players';
-import Play3R from '../layouts/Play3r.astro';
 ---
 
 <Layout title="Lista de asistencia Fogoneros">
@@ -37,8 +36,7 @@ import Play3R from '../layouts/Play3r.astro';
 		</svg> -->
 		<h1>Lista de Jugadores de fogoneros <span class="text-gradient">fogoneros</span></h1>
 	</main>
-
-	<Players client:only="react"/>
+	<Players client:visible/>
 	<!-- <Play3R/> -->
 
 </Layout>

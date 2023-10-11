@@ -1,3 +1,8 @@
 {
-    "cSpell.language": "en,es-ES,es,lorem"
+    "cSpell.language": "en,es-ES,es,lorem",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#1A3134",
+        "titleBar.activeBackground": "#244449",
+        "titleBar.activeForeground": "#F9FCFC"
+    }
 }

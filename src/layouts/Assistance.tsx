@@ -1,29 +1,14 @@
-import React, { useEffect, useMemo, useState, type ChangeEvent } from 'react';
+import React, { useState, type ChangeEvent } from 'react';
 import players from '../data';
+import { type Player } from '../types';
+import { request } from '../Api';
 
-type Props = {
-    idi: any,
-}
-
-type Info = {
-    id: number,
-    lista: number,
-    name: string,
-    lastName: string,
-    age: number,
-    position: string,
-    team: string,
-    faltas: number,
-    asistencias: number,
-    asistenciaRegistrada: string[]; // Array de fechas de asistencia registrada
-}
 
 interface FormData {
     lista: string;
-
   }
 
-const Assistance = (props : Props) => {
+const Assistance = () => {
     const initialFormData: FormData = {
         lista: '',
       };
@@ -31,7 +16,7 @@ const Assistance = (props : Props) => {
 
     const [resMessage, setResMessage] = useState<String>('')
 
-    const [playerData, setPlayerData] = useState<Info>();
+    const [playerData, setPlayerData] = useState<Player>();
 
     const handlePlayer = (e : ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -41,49 +26,34 @@ const Assistance = (props : Props) => {
         });
     }
 
-    const handleSubmit = (e : ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e : ChangeEvent<HTMLFormElement>) => {
+    
         e.preventDefault();
-        const ordered = players.find((player) => player.lista === parseInt(formData.lista));
-        console.log(ordered);
-        setPlayerData(ordered);
+
+        const { data } = await request.get<Player | null>(`/players/list/${formData.lista}`)
+
+        if (data === null) {
+            return setResMessage('Jugador no encontrado')
+        }
+
+        setPlayerData(data);
     }
 
-    const markAttendance = () => {
-        const currentDate = new Date().toLocaleDateString();
+    const markAttendance = async () => {
+        // const currentDate = new Date().toLocaleDateString();
         if (playerData!== undefined) {
-            const { asistenciaRegistrada } = playerData;
-            
-            // Verificar si ya se ha marcado la asistencia hoy
-            if (!asistenciaRegistrada.includes(currentDate)) {
-                // Marcar asistencia
-                const updatedPlayerData = {
-                    ...playerData,
-                    asistencias: playerData.asistencias + 1,
-                    asistenciaRegistrada: [...asistenciaRegistrada, currentDate],
-                };
-
-                console.log(updatedPlayerData);
-                setPlayerData(updatedPlayerData);
-
-                // Actualizar los datos del jugador
-                // Esto dependerá de cómo estés gestionando tus datos en tu aplicación
-                // Puede ser necesario utilizar un estado global o una función para actualizar los datos.
-                // setPlayerData(updatedPlayerData); // Ejemplo de cómo podrías actualizar los datos
-            } else {
-                // La asistencia ya ha sido registrada hoy
-                // Puedes mostrar un mensaje o tomar otras acciones aquí
-                console.log('La asistencia ya ha sido registrada hoy.');
-                setResMessage('La asistencia ya ha sido registrada hoy.');
-
+            try {
+                const { data } = await request.put<Player>(`/players/assistance/${formData.lista}`, playerData)
+                setPlayerData(data);
+            } catch (error) {
+                console.log(error);
+                setResMessage('Error al marcar asistencia')
             }
-        } else {
-            console.log('No se ha encontrado el jugador.');
-            setResMessage('No se ha encontrado el jugador.');
         }
     };
 
     return (
-        <> 
+        <>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="">Numero de lista</label>
                 <input type="number" name='lista' onChange={handlePlayer} required />
@@ -96,7 +66,7 @@ const Assistance = (props : Props) => {
             playerData ? (
                 <>
                     <p>Nombre: {playerData.name}</p>
-                    <p>Asistencias: {playerData.asistencias}</p>
+                    <p>Asistencias: {playerData.assists}</p>
                     <button onClick={markAttendance}>Marcar Asistencia</button>
                     
                 </>
