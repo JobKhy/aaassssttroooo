@@ -9,5 +9,8 @@ export default defineConfig({
   output: 'server',
   adapter: node({
     mode: "standalone"
-  })
+  }),
+
+  server: { port: 5000 || process.env.PORT }
+  
 });
