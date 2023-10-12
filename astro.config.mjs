@@ -11,6 +11,6 @@ export default defineConfig({
     mode: "standalone"
   }),
 
-  server: { port: 5000 || process.env.PORT }
+  server: { port: process.env.PORT || 5000 }
   
 });
