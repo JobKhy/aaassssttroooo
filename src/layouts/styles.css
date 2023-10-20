@@ -1,0 +1,93 @@
+form {
+    max-width: 30%;
+    margin: 0 auto;
+    padding: 20px 50px;
+    border: 1px solid #ccc;
+    background-color: hsla(0, 0%, 100%, 0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Estilo para los campos de entrada */
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #0833a2;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    color: black;
+    font-weight: 500;
+    border-bottom: 2px solid #ccc;
+    background-color: hsla(0, 0%, 100%, 0.5);
+  }
+  
+  /* Estilo para los mensajes de error */
+  form p {
+    color: #ff0000;
+    margin-top: -10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para el botón */
+  form  button {
+    background-color: #0833a2;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  form > button:hover {
+    background-color: #07287c;
+  }
+
+  .details {
+    max-width: 30%;
+    margin: 0 auto;
+    padding: 20px 50px;
+    border: 1px solid #ccc;
+    background-color: hsla(0, 0%, 100%, 0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+    .details > button {
+        background-color: #0833a2;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        width: 80%;
+        margin: 10% auto;
+    }
+
+    .details > button:hover {
+        background-color: #07287c;
+    }
+
+    .details > p {
+        color: black;
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+
+    .details > h1 {
+        color: #0833a2;
+        font-weight: 500;
+        font-size: 2rem;
+    }
+

@@ -6,7 +6,17 @@ import Assistance from "../layouts/Assistance";
 
 <Layout title="Pase asistencia">
     <main>
-		<h1>Pase de asistencia fogoneros <span class="text-gradient">fogoneros</span></h1>
+		<nav>
+			<span class="text-resp text-[#0833a2]">Lista de Jugadores de fogoneros</span>
+			<div class="dirButtons">
+				<button class="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium">
+					<a href="/">Lista de jugadores</a>
+				</button>
+				<button class="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium">
+					<a href="player/registro">Registrar nuevo</a>
+				</button>
+			</div>
+		</nav>
 	</main>
 
 	<Assistance client:visible	/>
@@ -25,6 +35,25 @@ import Assistance from "../layouts/Assistance";
         color: black;
 		margin-bottom: 1em;
 	}
+
+	nav{
+		display: flex;
+		margin: 0 auto;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 1rem;
+		width: 80%;
+		height: 8vh;
+		margin-bottom: 2%;
+		margin-top: 1%;
+
+	}
+
+	.text-resp {
+		font-size: 3rem;
+		font-weight: 600;
+	}
+
 	.text-gradient {
 		background-image: var(--accent-gradient);
 		-webkit-background-clip: text;
@@ -32,4 +61,16 @@ import Assistance from "../layouts/Assistance";
 		background-size: 400%;
 		background-position: 0%;
 	}
+
+	.dirButtons {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		gap: 1rem;
+		right: 0;
+		bottom: 0%;
+
+	}
+
 </style>

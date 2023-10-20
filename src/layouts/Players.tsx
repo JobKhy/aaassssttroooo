@@ -18,7 +18,8 @@ const Players = () => {
     (async () => {
       try {
         const data = await getPlayersAll();
-        setOrder(data);
+        const listData = [...data].sort((a, b) => a.list - b.list);
+        setOrder(listData);
         console.log({ data });
       } catch (error) {
         console.log({ error });
@@ -31,6 +32,11 @@ const Players = () => {
     setOrder(ordered);
   };
 
+  const orderAssistPlayers = () => {
+    const ordered = [...order].sort((a, b) => b.assists - a.assists);
+    setOrder(ordered);
+  };
+
   const orderListPlayers = () => {
     const ordered = [...order].sort((a, b) => a.list - b.list);
     setOrder(ordered);
@@ -40,33 +46,33 @@ const Players = () => {
     <div className="text-white flex flex-col">
       <span className="w-4/5 self-center flex gap-4 my-4">
         <button
-          className="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium"
+          className="p-2 rounded border-b-slate-300 border text-[#0833a2] font-medium"
           onClick={() => orderListPlayers()}
         >
-          order list
+          Lista
         </button>
         <button
-          className="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium"
+          className="p-2 rounded border-b-slate-300 border text-[#0833a2] font-medium"
+          onClick={() => orderAssistPlayers()}
+        >
+          Asistencias
+        </button>
+        {/* <button
+          className="p-2 rounded border-b-slate-300 border text-[#0833a2] font-medium"
           onClick={() => orderFaltasPlayers()}
         >
-          order faltas
-        </button>
-        <button className="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium">
-          <a href="asistencia">asistencia</a>
-        </button>
-        <button className="p-1 rounded border-b-slate-300 border text-[#0833a2] font-medium">
-          <a href="player/registro">Registrar nuevo</a>
-        </button>
+          Faltas
+        </button> */}
       </span>
 
-      <div className="flex flex-col gap-2 items-center ">
+      <div className="flex flex-col gap-2 items-center">
         <span className="flex gap-2 border justify-left w-4/5 text-[#0833a2] text-lg border-b-slate-300 font-semibold">
           <p className="w-2/12 text-center">No. list</p>
           <h2 className="w-2/12 text-center">Apellidos</h2>
           <h2 className="w-2/12 text-center">Nombre(s)</h2>
           <p className="w-2/12 text-center">Posición</p>
           <p className="w-2/12 text-center">Asistencias</p>
-          <p className="w-1/12 text-center">Faltas</p>
+          {/* <p className="w-1/12 text-center">Faltas</p> */}
           <p className="w-1/12 text-center"></p>
         </span>
         {order.map((order, index) => (
@@ -75,11 +81,11 @@ const Players = () => {
             className="flex gap-1 border   justify-left w-4/5 text-[#0833a2] border-b-slate-300"
           >
             <p className="w-2/12 text-center">{order.list}</p>
-            <h2 className="w-2/12 text-center">{order.name}</h2>
             <h2 className="w-2/12 text-center">{order.lastName}</h2>
+            <h2 className="w-2/12 text-center">{order.name}</h2>
             <p className="w-2/12 text-center">{order.position}</p>
             <p className="w-2/12 text-center">{order.assists}</p>
-            <p className="w-1/12 text-center">{order.noAssist}</p>
+            {/* <p className="w-1/12 text-center">{order.noAssist}</p> */}
             <button className="w-1/12">
               <a href={`player/${order.id}`}>+</a>
             </button>

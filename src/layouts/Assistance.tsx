@@ -4,6 +4,8 @@ import { type Player } from "../types";
 import { request } from "../Api";
 import { ResponseError } from "../Api/request";
 
+import "./styles.css"
+
 interface FormData {
   lista: string;
 }
@@ -66,8 +68,10 @@ const Assistance = () => {
         <label htmlFor="">Numero de lista</label>
         <input type="number" name="lista" onChange={handlePlayer} required />
 
-        <button type="submit">Verificar jugador</button>
+        <button type="submit" className="bg-[#0833a2]">Verificar jugador</button>
       </form>
+
+      <div className="details">
 
       <h1>Detalles del Jugador</h1>
       {playerData ? (
@@ -78,9 +82,10 @@ const Assistance = () => {
         </>
       ) : (
         <p>Selecciona un jugador</p>
-      )}
+        )}
 
       <p>{resMessage}</p>
+        </div>
     </>
   );
 };
